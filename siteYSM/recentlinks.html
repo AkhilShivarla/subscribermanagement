@@ -1,0 +1,103 @@
+
+<HTML>
+<head>
+   
+<title>	Insert </title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width height=device-height,initial-scale=1.0" />
+<meta http-equiv="X-UA-compatible" content="ie=edge" /> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- css files  -->
+<link rel="stylesheet/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/insert.css" rel="stylesheet">
+
+<!-- js files -->
+<script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body id="bd" style="background-color:white;overflow-x:hidden;">
+	<div class="navbar sticky">
+				<i class="fa fa-bars navbtn" onclick="openclose()" aria-hidden="true"></i>
+				<p class="cstw">Cs technical works</p>
+	</div>	
+	<div id="mySidenav" class="sidenav stickysn" >
+				<a href="#" class="closenav" onclick="closeNav()"><i class="fa fa-times" aria-hidden="true"></i></a>
+				<a href="admin.html" class="nav-links" onclick="home_fun()">Home </a>
+				<a href="insert.html" class="nav-links" >Insert </a>
+				<a href="recentlinks.html" class="nav-links" >Recent links </a>
+				<a href="comments.html" class="nav-links" onclick="suggestion_fun()">Comments</a>
+				<div class="data nav-links">Admin <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+					<form method="post">
+						<div class="data-content">
+							<a class="logoutbtn" href="#" onclick="signout()" name="logout" id="out" >Sign-out</a>
+						</div>
+					</form>
+				</div>
+	</div>
+	<div class="col-lg-12 audiv">
+		<p class="adminuitext">Admin</p>
+	</div>
+	<div class="mainbody form-group">
+		<center>
+			<form method="post" name="linksform"  id="myform">
+				<label> Links </label>
+				<textarea class="form-control" rows="3" placeholder="provide a link" autofocus="true" name="links" required id="links" ></textarea>
+				<input type="text" class="form-control" placeholder="link name" id="linkname"><br>
+			    <div class="load-gif" > </div>
+			    <button type="button" name="create" class="btn btn-success" onclick="rl()">Insert</button>
+			</form>
+		</center>
+	</div>
+	 <script>
+	    
+	    function rl()
+	    {
+	        var dataText = "link="+$("#links").val();
+	        dataText = dataText +"&name="+$("#linkname").val();
+			if(dataText === "")
+			{
+			    alert("Enter any links url");
+			}
+			else
+			{
+			    $(".load-gif").html("<i class='fa fa-spinner fa-spin' style='margin:20px;margin-top:-10px;font-size:50px;color:#002080'></i>");
+			    var linksurl = sessionStorage.getItem("linksurl");
+			    if(dataText==linksurl){
+			        alert("dont repeat");
+			        $(".load-gif").html("");
+			    }
+			    else
+			    {
+			        sessionStorage.setItem("linksurl", dataText);
+			        $.ajax({
+							type:"POST",
+							url:"php/links.php",
+							data:dataText,
+							success:function(result) { 
+							    if(result=="suc")
+							    {
+								    alert("Success !");
+								    $(".load-gif").html("");
+								    $("#links").val("");
+								    $("#linkname").val("");
+							    }
+							    else
+							    {
+							        alert("Not inserted !");
+							    }
+							}
+				    });	
+			    }
+			}
+	    }
+    </script>
+</body>
+</html>

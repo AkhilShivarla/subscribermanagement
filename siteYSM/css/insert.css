@@ -1,0 +1,148 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+}
+body{
+	margin:0;
+	padding:0;
+}
+.audiv{
+	background-color:cornflowerblue;
+	text-align:center;
+}
+.adminuitext{
+	color:white;
+	font-weight:900;
+	font-size:2vw;
+}
+.navbtn{
+float:left;
+margin-left:1%;
+padding-top:10px;
+}
+.cstw{
+float:left;
+font-size:25px;
+margin-top:5px;
+margin-left:2%;
+color:white;
+font-weight:900;
+}
+.navbar{
+display: table;
+background-color:#111;
+width:100%;
+z-index:1;
+border-radius:0;
+margin-bottom:0;
+}
+.sidenav {
+  height: 100%;
+  width: 0px;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 30px;
+}
+
+.nav-links {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 27px;
+  color: #818181;
+  display: block;
+  transition: 0.5s;
+}
+
+.nav-links:hover {
+  color: #f1f1f1;
+  transition:0.5s;
+}
+
+.closenav {
+  position: absolute;
+  top: 5px;
+  right: 25px;
+  font-size: 30px;
+  margin-left: 50px;
+  color:#818181;
+}
+.closenav:hover{
+	color:white;
+}
+
+.data-content {
+  position: absolute;
+  background-color: white;
+  z-index: 1;
+  margin-top:5%;
+  transition:all 0.3s ease-in;
+  height:0px;
+  box-shadow:0px 0px 10px #bfbfbf;
+  border-radius:20px;
+  font-size:18px;
+  font-weight:bold;
+}
+.fa-bars{
+font-size:30px;
+color:white;
+cursor:pointer;
+display:block;
+}
+.logoutbtn{
+  color: black;
+  padding: 10px 12px;
+  text-decoration: none;
+  display: block;
+}
+.data{
+	cursor:pointer;
+}
+.data:hover .data-content {height:45px;text-decoration:none;}
+.data-content a{
+    text-decoration:none;
+}
+.btn{
+	font-size:17px;
+}
+.mainbody{
+	margin-top:4.5%;
+    margin-bottom:2% !important;
+}
+.mainbody .form-control{
+	width:500px;
+	text-align:center;
+	margin-bottom:2%;
+	outline:none ;
+}
+.form-control:focus{
+    outline:none ;
+    box-shadow: inset 0px 0px 5px  black ;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height:10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 20px grey;
+  border-radius: 50%;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3b4045;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: black;
+}

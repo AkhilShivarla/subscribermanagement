@@ -1,0 +1,239 @@
+
+<HTML>
+<head>
+   
+<title>	Insert </title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width height=device-height,initial-scale=1.0" />
+<meta http-equiv="X-UA-compatible" content="ie=edge" /> 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- css files  -->
+<link rel="stylesheet/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/insert.css" rel="stylesheet">
+
+<!-- js files -->
+<script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="js/smtp.js" ></script>
+ <script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/admin.js"></script>
+</head>
+<body id="bd" style="background-color:white;overflow-x:hidden;">
+	<div class="navbar sticky">
+				<i class="fa fa-bars navbtn" onclick="openclose()" aria-hidden="true"></i>
+				<p class="cstw">Cs technical works</p>
+	</div>	
+	<div id="mySidenav" class="sidenav stickysn" >
+				<a href="#" class="closenav" onclick="closeNav()"><i class="fa fa-times" aria-hidden="true"></i></a>
+				<a href="admin.html" class="nav-links" onclick="home_fun()">Home </a>
+				<a href="insert.html" class="nav-links" >Insert </a>
+				<a href="recentlinks.html" class="nav-links" >Recent links </a>
+				<a href="comments.html" class="nav-links" onclick="suggestion_fun()">Comments</a>
+				<div class="data nav-links">Admin <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+					<form method="post">
+						<div class="data-content">
+							<a class="logoutbtn" href="#" onclick="signout()" name="logout" id="out" >Sign-out</a>
+						</div>
+					</form>
+				</div>
+	</div>
+	<div class="col-lg-12 audiv">
+		<p class="adminuitext">Admin</p>
+	</div>
+	<div class="mainbody form-group">
+		<center>
+			<form method="post" name="adm" enctype="multipart/form-data" id="myform">
+				<input type="text" class="form-control" placeholder="Title" name="title" autofocus="true" required id="title">
+	
+				<textarea class="form-control" rows="5" placeholder="First Description" name="des" required id="des"></textarea>
+				<input type="text" class="form-control" style="outline:red !important;" placeholder="Links" name="links" id="links">
+				<input type="file" class="form-control" id="file" name="file" >
+				<select class="form-control" id="category" name="category" >
+				    <option value="select" >--- select category---</option>
+				    <option value="technology" >Technology</option>
+				    <option value="society" >Society</option>
+				    <option value="devotion" >Devotion</option>
+				    <option value="sports" >Sports</option>
+				</select>
+				<select class="form-control" id="lang" name="language" >
+				    <option value="select" >--- select language ---</option>
+				    <option value="telugu" >Telugu</option>
+				    <option value="english" >English</option>
+				</select>
+				<textarea class="form-control" rows="5" placeholder="Second Description" name="des2" required id="des2"></textarea>
+			</form>
+			    <div class="load-gif" >
+			       
+			    </div>
+			    <button type="button" name="create" class="btn btn-danger" onclick="create()">Create</button>
+			    <button type="button" name="get" class="btn btn-info" onclick="get()">Get</button>
+			    <button type="button" name="update" class="btn btn-warning" onclick="update()">Update</button>
+		</center>
+		<script>
+	    
+	    function create()
+	    {
+	        console.log("inside create func");
+	        var tit = adm.title.value;
+			if(tit === "")
+			{
+			    alert("enter the title");
+			}
+			else
+			{
+			    console.log("inside else");
+			    $(".load-gif").html("<i class='fa fa-spinner fa-spin' style='margin:20px;margin-top:-10px;font-size:50px;color:#002080'></i>");
+			    var dataText = new FormData();
+                var files = $('#file')[0].files[0];
+                dataText.append('file',files);
+                dataText.append('title',$("#title").val());
+                dataText.append('des',$("#des").val());
+                dataText.append('des2',$("#des2").val());
+                dataText.append('links',$("#links").val());
+                dataText.append('lang',$("#lang").val());
+                dataText.append('category',$("#category").val());
+                var mm = ""+ $("#title").val();
+			    mm = mm+$("#des").val();
+			    mm = mm+$("#links").val();
+			    mm = mm+$("#des2").val();
+			    
+			    var fullPath = $("#file").val();
+			    if (fullPath) {
+                    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+                    var filename = fullPath.substring(startIndex);
+                    if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+                    filename = filename.substring(1);
+                    }
+                    mm = mm + filename;
+			    }
+			    //alert(mm);
+			    var mmm = sessionStorage.getItem("mmm");
+			    if(mm==mmm){
+			        alert("dont repeat");
+			        $(".load-gif").html("");
+			    }
+			    else{
+			    sessionStorage.setItem("mmm", mm);
+			    $.ajax({
+							type:"POST",
+							url:"create.php",
+							data:dataText,
+							contentType: false,
+							processData: false,
+							success:function(result) {
+							    if(result.substring(0, 3)=="suc")
+							    {
+								    alert("Success");
+								    $(".load-gif").html("");
+								    $("#des").val("");
+								    $("#des2").val("");
+								    $("#links").val("");
+								    $("#title").val("");
+								    console.log(result);
+								    result1 = result.substring(3, result.length-2);
+								    console.log(result1);
+								    result2 = "'"+result1+"'";
+								    console.log(result2);
+								    var body1 = 'Here' ;
+	                                Email.send({
+	                                Host: "smtp.gmail.com",
+	                                Username : "mail.alltemp123@gmail.com",
+	                                Password : "Temp@mail1",
+	                                To : "charankontham357@gmail.com",
+	                                From : "mail.alltemp123@gmail.com",
+	                                Subject : "Bulletin Update",
+	                                Body : "hello msg",
+	                                }).then(
+		                                message => alert("sucesfully sent mails to subscribers")
+	                                );
+							    }
+							},
+							error: function(data){
+							    alert(data.status + ':' + data.statusText+':'+data.responseText);
+							    $(".load-gif").html("");
+							}
+				});	
+			    }
+			}
+	    }
+        function get()
+				{
+				    var tit = adm.title.value;
+				    if(tit === "")
+				    {
+				        alert("enter the title");
+				    }
+				    else
+				    {
+				        $(".load-gif").html("<i class='fa fa-spinner fa-spin' style='margin:20px;margin-top:-10px;font-size:50px;color:#002080'></i>");
+				        var xmlhttp = new XMLHttpRequest();
+                        xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                //alert("retrieved");
+                                $(".load-gif").html("");
+                                var res = JSON.parse(this.responseText);
+                                document.getElementById("title").value = res.title;
+                                document.getElementById("des").value = res.des;
+                                document.getElementById("links").value = res.links;
+                                document.getElementById("des2").value = res.des2;
+                                //document.getElementById("img").value = res.img;
+                            }
+                        };
+                        xmlhttp.open("GET", "php/fetch.php?q="+tit, true);
+                     //   http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                        xmlhttp.send();//"q="+tit);
+				    }
+				}
+				function update()
+				{
+				    var tit = adm.title.value;
+				    if(tit === "")
+				    {
+				        alert("enter the title");
+				    }
+				    else
+				    {
+				        $(".load-gif").html("<i class='fa fa-spinner fa-spin' style='margin:20px;margin-top:-10px;font-size:50px;color:#002080'></i>");
+				        var mm = sessionStorage.getItem("dataTextu");
+			            var dataTextu ="title="+$("#title").val();
+			            dataTextu = dataTextu+"&des="+$("#des").val();
+			            dataTextu = dataTextu+"&links="+$("#links").val();
+			            dataTextu = dataTextu+"&des2="+$("#des2").val();
+			            if(mm==dataTextu)
+			            {
+			                alert("dont repeat");
+			                $(".load-gif").html("");
+			            }
+			            else
+			            {
+			            sessionStorage.setItem("dataTextu", dataTextu);
+				        $.ajax({
+							type:"POST",
+							url:"php/update.php",
+							data:dataTextu,
+							//cache:false,
+							//dataType:"html",
+							success:function(result) { 
+								$(".load-gif").html("");
+								//alert(result);
+								$("#des").val("");
+								$("#des2").val("");
+								$("#links").val("");
+								$("#title").val("");
+							}
+				        });
+			            }
+				    }
+				}
+    </script>
+	</div>
+	 
+</body>
+</html>
